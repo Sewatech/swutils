@@ -2,7 +2,10 @@
 
 Sewatech tc-utils is the place where we put all utility stuff that we're using for our 
 [Apache Tomcat](http://tomcat.apache.org) deployments. 
- 
+
+In order to use it, just put the [tc-utils-0.1.jar](https://repo1.maven.org/maven2/fr/sewatech/utils/tc-utils/0.1/tc-utils-0.1.jar) 
+file in the ${cataline.home}/lib directory and change your configuration depending on which feature you need.
+
 # Password encryption
 
 According to some discussions within the Tomcat team, it is useless to encrypt datasource passwords. But as stated in 
@@ -11,18 +14,17 @@ this [FAQ page](http://wiki.apache.org/tomcat/FAQ/Password), auditors do not lik
 We have made the choice to implement an ObjectFactory. To be more precise, we've done a sub-class of [Tomcat JDBC]
 (http://tomcat.apache.org/tomcat-7.0-doc/jdbc-pool.html)'s DataSourceFactory that handles with encrypted passwords. 
 
-In order to use it, just put the [tc-utils-0.1.jar](https://repo1.maven.org/maven2/fr/sewatech/utils/tc-utils/0.1/tc-utils-0.1.jar) 
-file in the ${cataline.home}/lib directory, and change the configuration of your datasource by adding (or changing) the 
-factory attribute and replacing the password by the encrypted one :
+The password is encrypted by running the following command :
+
+    java -cp $CATALINA_HOME/lib:$CATALINA_HOME/bin/tomcat-juli.jar fr.sewatech.tcutils.jdbc.EncryptedDataSourceFactory encode mypwd
+
+Now you can change the configuration of your datasource by adding (or changing) the factory attribute and replacing the 
+password by the encrypted one :
    
     <Resource name="MyDS" type="javax.sql.DataSource" auth="Container" 
               factory="fr.sewatech.tcutils.jdbc.EncryptedDataSourceFactory"
               username="alexis" password="XiGY7vFU1Nc=" 
-              .../>
- 
-The password is encrypted by running the following command :
-
-    java -cp $CATALINA_HOME/lib:$CATALINA_HOME/bin/tomcat-juli.jar fr.sewatech.tcutils.jdbc.EncryptedDataSourceFactory encode mypwd
+              .../> 
 
 TODO :
  
@@ -32,12 +34,42 @@ TODO :
 
 # Sessions
 
-Request comming from monitoring tools are generating a lot of useless sessions. We should invalidate them or put a low 
-timeout.
+Request coming from monitoring tools are generating a lot of useless sessions. The SingleRequestSessionFilter can 
+invalidate them at the end of each request. The filter invalidates the session of some defined users, and keep unchanged 
+the other sessions.
 
-TODO :
+You can configure the filter in the web.xml of an application or in the global web.xml.
 
-* everything
+Configuration for a single user :
+
+    <filter>
+        <filter-name>singleRequestSessionFilter</filter-name>
+        <filter-class>fr.sewatech.tcutils.web.SingleRequestSessionFilter</filter-class>
+        <init-param>
+            <param-name>userName</param-name>
+            <param-value>nagios0</param-value>
+        </init-param>
+    </filter>
+    
+Configuration for a list of users (coma separated) :
+
+    <filter>
+        <filter-name>singleRequestSessionFilter</filter-name>
+        <filter-class>fr.sewatech.tcutils.web.SingleRequestSessionFilter</filter-class>
+        <init-param>
+            <param-name>userName</param-name>
+            <param-value>nagios1,nagios2,nagios3</param-value>
+        </init-param>
+    </filter>
+
+Do not forget to map the filter to the whole application :
+    
+    <filter-mapping>
+        <filter-name>singleRequestSessionFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+
 
 # Server
 
