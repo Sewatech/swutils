@@ -3,7 +3,7 @@
 Sewatech tc-utils is the place where we put all utility stuff that we're using for our 
 [Apache Tomcat](http://tomcat.apache.org) deployments. 
 
-In order to use it, just put the [tc-utils-0.1.jar](https://repo1.maven.org/maven2/fr/sewatech/utils/tc-utils/0.1/tc-utils-0.1.jar) 
+In order to use it, just put the [tc-utils-0.2.0.jar](https://repo1.maven.org/maven2/fr/sewatech/utils/tc-utils/0.2.0/tc-utils-0.2.0.jar) 
 file in the ${cataline.home}/lib directory and change your configuration depending on which feature you need.
 
 # Password encryption
@@ -69,7 +69,9 @@ Do not forget to map the filter to the whole application :
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
+TODO :
 
+* Support of Session based authentication (not only principal)
 
 # Server
 
