@@ -11,8 +11,9 @@ this [FAQ page](http://wiki.apache.org/tomcat/FAQ/Password), auditors do not lik
 We have made the choice to implement an ObjectFactory. To be more precise, we've done a sub-class of [Tomcat JDBC]
 (http://tomcat.apache.org/tomcat-7.0-doc/jdbc-pool.html)'s DataSourceFactory that handles with encrypted passwords. 
 
-In order to use it, just put the tc-utils.jar file in the ${cataline.home}/lib directory, and change the configuration of 
-your datasource by adding (or changing) the factory attribute and replacing the password by the encrypted one :
+In order to use it, just put the [tc-utils-0.1.jar](https://repo1.maven.org/maven2/fr/sewatech/utils/tc-utils/0.1/tc-utils-0.1.jar) 
+file in the ${cataline.home}/lib directory, and change the configuration of your datasource by adding (or changing) the 
+factory attribute and replacing the password by the encrypted one :
    
     <Resource name="MyDS" type="javax.sql.DataSource" auth="Container" 
               factory="fr.sewatech.tcutils.jdbc.EncryptedDataSourceFactory"
