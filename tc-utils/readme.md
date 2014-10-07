@@ -44,7 +44,7 @@ Configuration for a single user :
 
     <filter>
         <filter-name>singleRequestSessionFilter</filter-name>
-        <filter-class>fr.sewatech.tcutils.web.SingleRequestSessionFilter</filter-class>
+        <filter-class>fr.sewatech.tcutils.session.SingleRequestSessionFilter</filter-class>
         <init-param>
             <param-name>userName</param-name>
             <param-value>nagios0</param-value>
@@ -55,7 +55,7 @@ Configuration for a list of users (coma separated) :
 
     <filter>
         <filter-name>singleRequestSessionFilter</filter-name>
-        <filter-class>fr.sewatech.tcutils.web.SingleRequestSessionFilter</filter-class>
+        <filter-class>fr.sewatech.tcutils.session.SingleRequestSessionFilter</filter-class>
         <init-param>
             <param-name>userName</param-name>
             <param-value>nagios1,nagios2,nagios3</param-value>
@@ -72,12 +72,4 @@ Do not forget to map the filter to the whole application :
 TODO :
 
 * Support of Session based authentication (not only principal)
-
-# Server
-
-Default Server implementation is listening on port 8005. Useless in most cases.
-
-TODO :
-
-* everything
 
