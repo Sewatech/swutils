@@ -73,3 +73,26 @@ TODO :
 
 * Support of Session based authentication (not only principal)
 
+# LDAP Realm
+
+Tomcat comes with a realm that validate credentials toward a LDAP registry. This realm is names JNDIRealm. It's working 
+fine except when it comes with Digest authentication.
+
+The goal of our LdapRealm is to permit Digest authentication on a LDAP, with some conditions.
+ 
+Indeed, there are two ways to validate credentials with LDAP : bind the user or compare provided information with some 
+fields. This one is the only solution for Digest. So you'll have to configure the realm with a ''userPassword'' attribute.  
+
+    <Realm className="fr.sewatech.tcutils.realm.LdapRealm"
+
+           connectionURL="ldap://127.0.0.1:1389/"
+           connectionName="cn=Directory Manager"
+           connectionPassword="swpwd"
+
+           userBase="ou=people,dc=sewatech,dc=fr"
+           userPassword="password"
+           userSearch="(uid={0})"
+
+           roleBase="ou=groups,dc=sewatech,dc=fr"
+           roleSearch="(uniqueMember={0})"
+           roleName="cn" />
