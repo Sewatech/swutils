@@ -84,7 +84,7 @@ public class LdapRealmTest {
         String password = ldapRealm.getPassword("ANYBODY");
 
         // Then
-        assertThat(password).isEqualTo(password);
+        assertThat(password).isEqualTo(storedPassword);
     }
 
     @Test
