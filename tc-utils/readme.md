@@ -9,14 +9,17 @@ file in the ${cataline.home}/lib directory and change your configuration dependi
 # Password encryption
 
 According to some discussions within the Tomcat team, it is useless to encrypt datasource passwords. But as stated in 
-this [FAQ page](http://wiki.apache.org/tomcat/FAQ/Password), auditors do not like this answer.
+this [FAQ page](http://wiki.apache.org/tomcat/FAQ/Password), auditors do not like this answer. In order to make them 
+happy, we have implemented some encryption features for DataSource and SSL.
+
+Both are using the same encryption algorithm and key. Encrypting password for either of them work as follow :
+ 
+    java -cp $CATALINA_HOME/lib/*:$CATALINA_HOME/bin/tomcat-juli.jar fr.sewatech.tcutils.commons.Encryption encode mypwd 
+
+## DataSource
  
 We have made the choice to implement an ObjectFactory. To be more precise, we've done a sub-class of [Tomcat JDBC]
 (http://tomcat.apache.org/tomcat-7.0-doc/jdbc-pool.html)'s DataSourceFactory that handles with encrypted passwords. 
-
-The password is encrypted by running the following command :
-
-    java -cp $CATALINA_HOME/lib:$CATALINA_HOME/bin/tomcat-juli.jar fr.sewatech.tcutils.jdbc.EncryptedDataSourceFactory encode mypwd
 
 Now you can change the configuration of your datasource by adding (or changing) the factory attribute and replacing the 
 password by the encrypted one :
@@ -26,11 +29,19 @@ password by the encrypted one :
               username="alexis" password="XiGY7vFU1Nc=" 
               .../> 
 
-TODO :
- 
-* prompt when no argument after encode
+## SSL Connector
 
-* prompt at Tomcat startup if password attribute is not in configuration
+Generate the keystore with the clear text passwords :
+
+    keytool -genkeypair -keystore conf/my.jks -storepass mystorepwd -alias mykey -keypass mykeypwd    \
+                        -keyAlg RSA -dname "cn=www.sewatech.fr, o=Sewatech, c=FR"    
+
+Now you can change the configuration of the SSL connector, using our protocol class and the encrypted passwords :
+
+    <Connector port="8443" protocol="fr.sewatech.tcutils.connector.EncryptedSslHttp11NioProtocol"
+               SSLEnabled="true" scheme="https" secure="true" clientAuth="false" sslProtocol="TLS" 
+               keystoreFile="${catalina.home}/conf/my.jks" keystorePass="sFXj6LJVeHaSzEWkXy+myg=="
+               keyAlias="mykey"  keyPass="K2wXOlwGHpiu/RdNAO1rJQ=="/>
 
 # Sessions
 

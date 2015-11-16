@@ -1,8 +1,6 @@
 package fr.sewatech.tcutils.commons;
 
-import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
@@ -15,12 +13,20 @@ import java.security.NoSuchAlgorithmException;
 public class Encryption {
     private static final byte[] KEY = "Sewatech FTW ...".getBytes();
 
-    public static String encode(String text) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
-        return DatatypeConverter.printBase64Binary(getCipher(Cipher.ENCRYPT_MODE).doFinal(text.getBytes()));
+    public static String encode(String text) {
+        try {
+            return DatatypeConverter.printBase64Binary(getCipher(Cipher.ENCRYPT_MODE).doFinal(text.getBytes()));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public static String decode(String text) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
-        return new String(getCipher(Cipher.DECRYPT_MODE).doFinal(DatatypeConverter.parseBase64Binary(text)));
+    public static String decode(String text) {
+        try {
+            return new String(getCipher(Cipher.DECRYPT_MODE).doFinal(DatatypeConverter.parseBase64Binary(text)));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private static Cipher getCipher(int mode) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException {

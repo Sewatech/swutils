@@ -1,12 +1,12 @@
 /**
  * Copyright 2014 Sewatech
- *
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -39,20 +39,15 @@ public class EncryptedDataSourceFactory extends DataSourceFactory {
 
     @Override
     public DataSource createDataSource(Properties properties, Context context, boolean xa) throws SQLException {
-        try {
-            PoolConfiguration poolProperties = EncryptedDataSourceFactory.parsePoolProperties(properties);
-            poolProperties.setPassword(decode(poolProperties.getPassword()));
-            if (poolProperties.getDataSourceJNDI() != null && poolProperties.getDataSource() == null) {
-                performJNDILookup(context, poolProperties);
-            }
-            DataSource dataSource = xa ? new XADataSource(poolProperties) : new DataSource(poolProperties);
-            dataSource.createPool();
-
-            return dataSource;
-        } catch (Exception e) {
-            logger.error("Cannot create DataSource", e);
-            throw new RuntimeException(e);
+        PoolConfiguration poolProperties = EncryptedDataSourceFactory.parsePoolProperties(properties);
+        poolProperties.setPassword(decode(poolProperties.getPassword()));
+        if (poolProperties.getDataSourceJNDI() != null && poolProperties.getDataSource() == null) {
+            performJNDILookup(context, poolProperties);
         }
+        DataSource dataSource = xa ? new XADataSource(poolProperties) : new DataSource(poolProperties);
+        dataSource.createPool();
+
+        return dataSource;
     }
 
 }
