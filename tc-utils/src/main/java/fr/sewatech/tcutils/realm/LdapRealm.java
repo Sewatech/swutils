@@ -18,10 +18,11 @@ package fr.sewatech.tcutils.realm;
 import javax.naming.NamingException;
 
 /**
- * <p>Implementation of <strong>Realm</strong> that works with a directory
- * server. It works like the JNDIRealm except that it supports Digest
- * authentication.
+ * <p>Implementation of <strong>Realm</strong> that works with a directory server. It works like the JNDIRealm except
+ * that it supports Digest authentication.</p>
  *
+ * <p>Useful in old versions of Tomcat. The feature has been integrated in Tomcat's JNDIRealm, in Tomcat 9,
+ * and has been ported to previous versions, in minor releases (8.0.29 and 7.0.66).</p>
  *
  * @author Alexis Hassler
  */

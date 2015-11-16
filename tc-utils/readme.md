@@ -107,3 +107,6 @@ fields. This one is the only solution for Digest. So you'll have to configure th
            roleBase="ou=groups,dc=sewatech,dc=fr"
            roleSearch="(uniqueMember={0})"
            roleName="cn" />
+
+Note : This realm is only useful in old versions of Tomcat. The feature has been integrated in Tomcat's JNDIRealm, in
+  Tomcat 9, and has been ported to previous versions, in minor releases (8.0.29 and 7.0.66).
