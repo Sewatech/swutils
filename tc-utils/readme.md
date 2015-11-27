@@ -3,7 +3,7 @@
 Sewatech tc-utils is the place where we put all utility stuff that we're using for our 
 [Apache Tomcat](http://tomcat.apache.org) deployments. 
 
-In order to use it, just put the [tc-utils-0.2.0.jar](https://repo1.maven.org/maven2/fr/sewatech/utils/tc-utils/0.2.0/tc-utils-0.2.0.jar) 
+In order to use it, just put the [tc-utils-0.3.0.jar](https://repo1.maven.org/maven2/fr/sewatech/utils/tc-utils/0.3.0/tc-utils-0.3.0.jar) 
 file in the ${cataline.home}/lib directory and change your configuration depending on which feature you need.
 
 # Password encryption
@@ -110,3 +110,15 @@ fields. This one is the only solution for Digest. So you'll have to configure th
 
 Note : This realm is only useful in old versions of Tomcat. The feature has been integrated in Tomcat's JNDIRealm, in
   Tomcat 9, and has been ported to previous versions, in minor releases (8.0.29 and 7.0.66).
+
+# Enhanced AccessLogValve for Posix
+
+The behaviour of AccessLogValve is to create the log files with the current user as owner. And the group of the file is 
+the default group of the user. Our enhanced AccessLogValve is able to switch the group to an other one, as far as the 
+user is a member of it.
+
+    <Valve className="fr.sewatech.tcutils.valves.PosixAccessLogValve"
+           ...
+           posixGroupName="logs" />
+
+The Valve can be used on any operating system, but it supports the posixGroupName attribute only on Posix file systems.
