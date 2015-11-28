@@ -1,6 +1,6 @@
 # What's that ?
 
-Sewatech tc-utils is the place where we put all utility stuff that we're using for our 
+tc-utils by [Sewatech](http://www.sewatech.fr) is the place where we put all utility stuff that we're using for our 
 [Apache Tomcat](http://tomcat.apache.org) deployments. 
 
 In order to use it, just put the [tc-utils-0.4.0.jar](https://repo1.maven.org/maven2/fr/sewatech/utils/tc-utils/0.4.0/tc-utils-0.4.0.jar) 
