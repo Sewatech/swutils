@@ -111,14 +111,33 @@ fields. This one is the only solution for Digest. So you'll have to configure th
 Note : This realm is only useful in old versions of Tomcat. The feature has been integrated in Tomcat's JNDIRealm, in
   Tomcat 9, and has been ported to previous versions, in minor releases (8.0.29 and 7.0.66).
 
-# Enhanced AccessLogValve for Posix
+# Enhanced logs
 
-The behaviour of AccessLogValve is to create the log files with the current user as owner. And the group of the file is 
-the default group of the user. Our enhanced AccessLogValve is able to switch the group to an other one, as far as the 
-user is a member of it.
+Wanna change the group owner of the log files ? You can find fine workaround with bash scripts. Here are some integrated
+solutions, for the access logs and the JULI logs. 
+
+Their are a few constraints. Of course it works only on posix file systems. And the current user should be a member of
+the group.
+
+## JULI for Posix
+
+Configure the file handler in the logging.properties file :
+
+    9custom.fr.sewatech.tcutils.juli.PosixAsyncFileHandler.level = FINE
+    9custom.fr.sewatech.tcutils.juli.PosixAsyncFileHandler.directory = ${catalina.base}/logs
+    9custom.fr.sewatech.tcutils.juli.PosixAsyncFileHandler.prefix = sewatech.
+    9custom.fr.sewatech.tcutils.juli.PosixAsyncFileHandler.group = everyone
+
+The PosixAsyncFileHandler supports the same options as the regular AsyncFileHandler, with the additional one (group). 
+
+## AccessLogValve for Posix
+
+Configure the Valve in the server.xml file :
 
     <Valve className="fr.sewatech.tcutils.valves.PosixAccessLogValve"
            ...
            posixGroupName="logs" />
 
-The Valve can be used on any operating system, but it supports the posixGroupName attribute only on Posix file systems.
+
+On non-posix file systems, the posixGroupName is just ignored.
+
