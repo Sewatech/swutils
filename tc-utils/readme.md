@@ -3,8 +3,8 @@
 Sewatech tc-utils is the place where we put all utility stuff that we're using for our 
 [Apache Tomcat](http://tomcat.apache.org) deployments. 
 
-In order to use it, just put the [tc-utils-0.3.0.jar](https://repo1.maven.org/maven2/fr/sewatech/utils/tc-utils/0.3.0/tc-utils-0.3.0.jar) 
-file in the ${cataline.home}/lib directory and change your configuration depending on which feature you need.
+In order to use it, just put the [tc-utils-0.4.0.jar](https://repo1.maven.org/maven2/fr/sewatech/utils/tc-utils/0.4.0/tc-utils-0.4.0.jar) 
+file in the ${cataline.home}/lib/ directory and change your configuration depending on which feature you need.
 
 # Password encryption
 
@@ -121,14 +121,22 @@ the group.
 
 ## JULI for Posix
 
-Configure the file handler in the logging.properties file :
+In order to use our JULI file handler, you need to download an additional [file](https://repo1.maven.org/maven2/fr/sewatech/utils/tc-utils/0.4.0/tc-utils-0.4.0-juli.jar) 
+and put it in the ${cataline.home}/bin/ directory.
 
-    9custom.fr.sewatech.tcutils.juli.PosixAsyncFileHandler.level = FINE
+Then, you change the classpath environnement variable, in the standalone.conf file :
+
+    CLASSPATH="$CLASSPATH:$CATALINA_BASE/bin/tc-utils-0.4.0-juli.jar"
+
+After that, you may configure the file handler in the logging.properties file :
+
+    9custom.fr.sewatech.tcutils.juli.PosixAsyncFileHandler.level = INFO
     9custom.fr.sewatech.tcutils.juli.PosixAsyncFileHandler.directory = ${catalina.base}/logs
     9custom.fr.sewatech.tcutils.juli.PosixAsyncFileHandler.prefix = sewatech.
     9custom.fr.sewatech.tcutils.juli.PosixAsyncFileHandler.group = everyone
 
-The PosixAsyncFileHandler supports the same options as the regular AsyncFileHandler, with the additional one (group). 
+The PosixAsyncFileHandler supports the same options as the regular AsyncFileHandler, and adds the "group" option. This  
+option is just ignored on non-posix file systems. 
 
 ## AccessLogValve for Posix
 
@@ -138,6 +146,4 @@ Configure the Valve in the server.xml file :
            ...
            posixGroupName="logs" />
 
-
 On non-posix file systems, the posixGroupName is just ignored.
-
