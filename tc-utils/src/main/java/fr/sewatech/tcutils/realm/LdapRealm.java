@@ -26,6 +26,7 @@ import javax.naming.NamingException;
  *
  * @author Alexis Hassler
  */
+@Deprecated
 public class LdapRealm extends org.apache.catalina.realm.JNDIRealm {
 
     @Override

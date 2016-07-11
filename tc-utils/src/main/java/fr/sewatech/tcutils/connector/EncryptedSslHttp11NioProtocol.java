@@ -16,9 +16,19 @@
 package fr.sewatech.tcutils.connector;
 
 import org.apache.coyote.http11.Http11NioProtocol;
+import org.apache.tomcat.util.net.AbstractJsseEndpoint;
+import org.apache.tomcat.util.net.NioChannel;
 
 import static fr.sewatech.tcutils.commons.Encryption.decode;
 
+/**
+ * Designed for Tomcat 7 & 8.0
+ * Deprecated for Tomcat 8.5 & 9
+ * Won't work on Tomcat 10+
+ *
+ * See http://tomcat.apache.org/tomcat-8.5-doc/config/http.html#SSL_Support
+ */
+@Deprecated
 public class EncryptedSslHttp11NioProtocol extends Http11NioProtocol {
     @Override
     public void setKeystorePass(String password) {

@@ -1,5 +1,10 @@
 # Pre-versions
 
+## 0.5
+
+- ugrade to Tomcat 8.5 and Java 8
+- deprecate old stuff (Tomcat 7 related)
+
 ## 0.4
 
 - password encryption for SSL connector (EncryptedSslHttp11NioProtocol)
