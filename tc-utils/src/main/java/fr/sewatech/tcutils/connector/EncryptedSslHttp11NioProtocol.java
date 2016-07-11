@@ -44,4 +44,10 @@ public class EncryptedSslHttp11NioProtocol extends Http11NioProtocol {
     public void setTruststorePass(String password) {
         super.setTruststorePass(decode(password));
     }
+
+
+    @Override
+    protected AbstractJsseEndpoint<NioChannel> getEndpoint() {
+        return super.getEndpoint();
+    }
 }

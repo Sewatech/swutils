@@ -18,6 +18,7 @@ package fr.sewatech.tcutils.realm;
 import org.apache.catalina.Container;
 import org.apache.catalina.realm.GenericPrincipal;
 import org.apache.catalina.realm.JNDIRealm;
+import org.apache.catalina.realm.MessageDigestCredentialHandler;
 import org.apache.juli.logging.LogFactory;
 import org.apache.naming.NameParserImpl;
 import org.apache.tomcat.util.security.MD5Encoder;
@@ -123,7 +124,7 @@ public class LdapRealmTest {
         assertThat(((GenericPrincipal)principal).getPassword()).isEqualTo(storedPassword);
     }
 
-    @Test @Ignore
+    @Test
     public void authenticate_with_digest_and_digested_password_should_call_getPassword() throws Exception {
         // Given
         MessageDigest md5Helper = MessageDigest.getInstance("MD5");
@@ -131,7 +132,9 @@ public class LdapRealmTest {
         setUpWithPassword(ha1);
 
         ldapRealm.setUserPassword(userPasswordAttribute);
-//        ldapRealm.setDigest("md5");
+        MessageDigestCredentialHandler credentialHandler = new MessageDigestCredentialHandler();
+        credentialHandler.setAlgorithm("md5");
+        ldapRealm.setCredentialHandler(credentialHandler);
         ldapRealm.start();
         LdapRealm spiedLdapRealm = spy(ldapRealm);
 

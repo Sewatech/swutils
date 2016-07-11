@@ -15,11 +15,12 @@
  */
 package fr.sewatech.tcutils.connector;
 
+import org.apache.tomcat.util.net.SSLHostConfig;
+import org.apache.tomcat.util.net.SSLHostConfigCertificate;
 import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
 
 /**
  * @author Alexis Hassler
@@ -31,7 +32,7 @@ public class EncryptedSslHttp11NioProtocolTest {
 
     private EncryptedSslHttp11NioProtocol protocol = new EncryptedSslHttp11NioProtocol();
 
-    @Test @Ignore
+    @Test
     public void keystorePass_should_be_decoded() throws Exception {
         // GIVeN
 
@@ -39,11 +40,12 @@ public class EncryptedSslHttp11NioProtocolTest {
         protocol.setKeystorePass(ENCRYPTED_PASSWORD);
 
         // THeN
-//        assertThat(protocol.getEndpoint().getKeystorePass()).isEqualTo(CLEAR_PASSWORD);
+        SSLHostConfigCertificate certificate = getSslHostConfigCertificate(protocol);
+        assertThat(certificate.getCertificateKeystorePassword()).isEqualTo(CLEAR_PASSWORD);
 
     }
 
-    @Test @Ignore
+    @Test
     public void keyPass_should_be_decoded() throws Exception {
         // GIVeN
 
@@ -51,11 +53,12 @@ public class EncryptedSslHttp11NioProtocolTest {
         protocol.setKeyPass(ENCRYPTED_PASSWORD);
 
         // THeN
-//        assertThat(protocol.getEndpoint().getKeyPass()).isEqualTo(CLEAR_PASSWORD);
+        SSLHostConfigCertificate certificate = getSslHostConfigCertificate(protocol);
+        assertThat(certificate.getCertificateKeyPassword()).isEqualTo(CLEAR_PASSWORD);
 
     }
 
-    @Test @Ignore
+    @Test
     public void truststorePass_should_be_decoded() throws Exception {
         // GIVeN
 
@@ -63,8 +66,17 @@ public class EncryptedSslHttp11NioProtocolTest {
         protocol.setTruststorePass(ENCRYPTED_PASSWORD);
 
         // THeN
-//        assertThat(protocol.getEndpoint().getTruststorePass()).isEqualTo(CLEAR_PASSWORD);
+        assertThat(getSslHostConfig(protocol).getTruststorePassword()).isEqualTo(CLEAR_PASSWORD);
 
+    }
+
+    private SSLHostConfigCertificate getSslHostConfigCertificate(EncryptedSslHttp11NioProtocol protocol) {
+        return getSslHostConfig(protocol).getCertificates().iterator().next();
+    }
+
+    private SSLHostConfig getSslHostConfig(EncryptedSslHttp11NioProtocol protocol) {
+        SSLHostConfig[] sslHostConfigs = protocol.getEndpoint().findSslHostConfigs();
+        return sslHostConfigs[0];
     }
 
 
