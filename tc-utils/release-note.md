@@ -1,7 +1,8 @@
 # Pre-versions
 
-## 0.5
+## 0.4.1
 
+- password encryption for SSL NIO2 connector (EncryptedSslHttp11Nio2Protocol)
 - ugrade to Tomcat 8.5 and Java 8
 - deprecate old stuff (Tomcat 7 related)
 

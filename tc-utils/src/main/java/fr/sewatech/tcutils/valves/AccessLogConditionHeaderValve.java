@@ -1,3 +1,18 @@
+/**
+ * Copyright 2016 Sewatech
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package fr.sewatech.tcutils.valves;
 
 import java.io.IOException;
@@ -13,14 +28,21 @@ import org.apache.catalina.valves.ValveBase;
  * conditions on HTTP headers into a boolean attributeName.
  * <p>
  * Conditions are exact value, prefix or suffix
+ * </p>
  * <p>
  * Configuration :
- * <Valve className="fr.sewatech.tcutils.valves.AccessLogConditionHeaderValve"
- *        attributeName="sewatech.fr" header="Host" suffix="sewatech.fr" />
+ * </p>
+ * <pre>
+ * &lt;Valve className="fr.sewatech.tcutils.valves.AccessLogConditionHeaderValve"
+ *        attributeName="sewatech.fr" header="Host" suffix="sewatech.fr" /&gt;
+ * </pre>
  * <p>
  * Use in access logs :
- * <Valve className="org.apache.catalina.valves.AccessLogValve"
- * ... conditionIf="sewatech.fr" ... />
+ * </p>
+ * <pre>
+ * &lt;Valve className="org.apache.catalina.valves.AccessLogValve"
+ * ... conditionIf="sewatech.fr" ... /&gt;
+ * </pre>
  *
  * @author Alexis Hassler
  */

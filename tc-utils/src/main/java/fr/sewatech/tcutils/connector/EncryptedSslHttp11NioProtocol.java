@@ -1,5 +1,5 @@
 /**
- * Copyright 2015 Sewatech
+ * Copyright 2016 Sewatech
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,9 +22,15 @@ import org.apache.tomcat.util.net.NioChannel;
 import static fr.sewatech.tcutils.commons.Encryption.decode;
 
 /**
- * Designed for Tomcat 7 & 8.0
- * Deprecated for Tomcat 8.5 & 9
+ * <p>
+ * Designed for Tomcat 7 and 8.0
+ * </p>
+ * <p>
+ * Deprecated for Tomcat 8.5 and 9
+ * </p>
+ * <p>
  * Won't work on Tomcat 10+
+ * </p>
  *
  * See http://tomcat.apache.org/tomcat-8.5-doc/config/http.html#SSL_Support
  */
