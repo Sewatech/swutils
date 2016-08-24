@@ -38,6 +38,7 @@
 
     <modules>
       <module>tc-utils</module>
+        <module>hib-utils</module>
     </modules>
 
     <scm>
