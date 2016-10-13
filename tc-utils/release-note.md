@@ -1,5 +1,9 @@
 # Pre-versions
 
+## 0.5.0
+
+- XForwardedFilter to rewrite the context path when using a reverse proxy
+
 ## 0.4.1
 
 - password encryption for SSL NIO2 connector (EncryptedSslHttp11Nio2Protocol)

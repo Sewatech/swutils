@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.sewatech.tcutils.valves;
+package fr.sewatech.tcutils.log;
 
 import org.apache.catalina.Valve;
 import org.apache.catalina.connector.Request;

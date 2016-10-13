@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.sewatech.tcutils.valves;
+package fr.sewatech.tcutils.log;
 
 import java.io.IOException;
 
@@ -33,14 +33,14 @@ import org.apache.catalina.valves.ValveBase;
  * Configuration :
  * </p>
  * <pre>
- * &lt;Valve className="fr.sewatech.tcutils.valves.AccessLogConditionHeaderValve"
+ * &lt;Valve className="fr.sewatech.tcutils.log.AccessLogConditionHeaderValve"
  *        attributeName="sewatech.fr" header="Host" suffix="sewatech.fr" /&gt;
  * </pre>
  * <p>
  * Use in access logs :
  * </p>
  * <pre>
- * &lt;Valve className="org.apache.catalina.valves.AccessLogValve"
+ * &lt;Valve className="org.apache.catalina.log.AccessLogValve"
  * ... conditionIf="sewatech.fr" ... /&gt;
  * </pre>
  *

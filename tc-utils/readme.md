@@ -144,3 +144,28 @@ Configure the Valve in the server.xml file :
            posixGroupName="logs" />
 
 On non-posix file systems, the posixGroupName is just ignored.
+
+# Reverse proxy
+
+## Context path
+
+This XForwardedFilter servlet filter can change the result of request.getContextPath(). Instead of given the original value, it checks if it can find the X-Forwarded-Context header and returns this value if exists.
+
+The first part of the setup is in the web server. It has to put the context path in the X-Forwarded-Context header. For example, with httpd mod_proxy / mod_headers it will look like this :
+ 
+    <Location /hi>
+        ProxyPass http://localhost:8080/hell
+        RequestHeader set X-Forwarded-Context /hi
+    </Location>
+
+The java part of the configuration takes place in the web.xml file :
+
+    <filter>
+        <filter-name>XForwardedFilter</filter-name>
+        <filter-class>fr.sewatech.tcutils.proxy.XForwardedFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>XForwardedFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
