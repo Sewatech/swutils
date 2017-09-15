@@ -205,3 +205,23 @@ The `headerName` and `headerValue` parameters are required.
 The `force` parameter is optional.
 It's default value is `false`, which means that if the header is set by the application the valve won't modify it. 
 In the _force_ mode, the header is always set even if has already be added by the application.
+
+## CORS 
+
+CORS is already supported by Tomcat with its [CorsFilter](http://tomcat.apache.org/tomcat-8.5-doc/config/filter.html#CORS_Filter).
+But sometime we need a valve instead of a filter. 
+
+CorsValve is a wrapper around the built-in CorsFilter.
+The simplest way to enable it is: 
+
+    <Valve className="fr.sewatech.tcutils.headers.CorsValve" />
+
+All the parameters has been adapted as well:
+
+* `allowedOrigins` for `cors.allowed.origins`
+* `allowedMethods` for `cors.allowed.methods`
+* `allowedHeaders` for `cors.allowed.headers`
+* `exposedHeaders` for `cors.exposed.headers`
+* `preflightMaxAge` for `cors.preflight.maxage`
+* `supportCredentials` for `cors.support.credentials`
+* `requestDecorate` for `cors.request.decorate`
