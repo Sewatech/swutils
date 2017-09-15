@@ -3,6 +3,7 @@
 ## 0.5.0
 
 - XForwardedFilter to rewrite the context path when using a reverse proxy
+- HttpResponseHeaderValve to set an arbitrary header in HTTP response
 
 ## 0.4.1
 

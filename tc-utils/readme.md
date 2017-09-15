@@ -6,7 +6,9 @@ In order to use it, just put the [tc-utils-0.5.0.jar](https://repo1.maven.org/ma
 
 # Password encryption
 
-According to some discussions within the Tomcat team, it is useless to encrypt datasource passwords. But as stated in this [FAQ page](http://wiki.apache.org/tomcat/FAQ/Password), auditors do not like this answer. In order to make them happy, we have implemented some encryption features for DataSource and SSL.
+According to some discussions within the Tomcat team, it is useless to encrypt datasource passwords. 
+But as stated in this [FAQ page](http://wiki.apache.org/tomcat/FAQ/Password), auditors do not like this answer. 
+In order to make them happy, we have implemented some encryption features for DataSource and SSL.
 
 Both are using the same encryption algorithm and key. Encrypting password for either of them work as follow :
  
@@ -14,7 +16,8 @@ Both are using the same encryption algorithm and key. Encrypting password for ei
 
 ## DataSource
  
-We have made the choice to implement an ObjectFactory. To be more precise, we've done a sub-class of [Tomcat JDBC](http://tomcat.apache.org/tomcat-7.0-doc/jdbc-pool.html)'s DataSourceFactory that handles with encrypted passwords. 
+We have made the choice to implement an ObjectFactory. 
+To be more precise, we've done a sub-class of [Tomcat JDBC](http://tomcat.apache.org/tomcat-7.0-doc/jdbc-pool.html)'s DataSourceFactory that handles with encrypted passwords. 
 
 Now you can change the configuration of your datasource by adding (or changing) the factory attribute and replacing the password by the encrypted one :
    
@@ -37,7 +40,9 @@ Now you can change the configuration of the SSL connector, using our protocol cl
                keystoreFile="${catalina.home}/conf/my.jks" keystorePass="sFXj6LJVeHaSzEWkXy+myg=="
                keyAlias="mykey" keyPass="K2wXOlwGHpiu/RdNAO1rJQ=="/>
 
-This kind of configuration was designed for old Tomcats. It is supported up to Tomcat 9. With Tomcat 8.5, a new way to configure the SSL connector has been introduced.
+This kind of configuration was designed for old Tomcats. 
+It is supported up to Tomcat 9. 
+With Tomcat 8.5, a new way to configure the SSL connector has been introduced.
 
     <Connector port="8443" protocol="org.apache.coyote.http11.Http11NioProtocol"
                SSLEnabled="true"
@@ -50,7 +55,9 @@ This kind of configuration was designed for old Tomcats. It is supported up to T
 
 # Sessions
 
-Request coming from monitoring tools are generating a lot of useless sessions. The SingleRequestSessionFilter can invalidate them at the end of each request. The filter invalidates the session of some defined users, and keep unchanged the other sessions.
+Request coming from monitoring tools are generating a lot of useless sessions. 
+The SingleRequestSessionFilter can invalidate them at the end of each request. 
+The filter invalidates the session of some defined users, and keep unchanged the other sessions.
 
 You can configure the filter in the web.xml of an application or in the global web.xml.
 
@@ -89,11 +96,14 @@ TODO :
 
 # LDAP Realm
 
-Tomcat comes with a realm that validate credentials toward a LDAP registry. This realm is names JNDIRealm. It's working fine except when it comes with Digest authentication.
+Tomcat comes with a realm that validate credentials toward a LDAP registry. 
+This realm is names JNDIRealm. 
+It's working fine except when it comes with Digest authentication.
 
 The goal of our LdapRealm is to permit Digest authentication on a LDAP, with some conditions.
  
-Indeed, there are two ways to validate credentials with LDAP : bind the user or compare provided information with some fields. This one is the only solution for Digest. So you'll have to configure the realm with a ''userPassword'' attribute.  
+Indeed, there are two ways to validate credentials with LDAP : bind the user or compare provided information with some fields. 
+This one is the only solution for Digest. So you'll have to configure the realm with a ''userPassword'' attribute.  
 
     <Realm className="fr.sewatech.tcutils.realm.LdapRealm"
 
@@ -109,13 +119,18 @@ Indeed, there are two ways to validate credentials with LDAP : bind the user or 
            roleSearch="(uniqueMember={0})"
            roleName="cn" />
 
-Note : This realm is deprecated because it is only useful in old versions of Tomcat. The feature has been integrated in Tomcat's JNDIRealm, in Tomcat 9, and has been ported to previous versions, in minor releases (8.0.29 and 7.0.66).
+Note : 
+This realm is deprecated because it is only useful in old versions of Tomcat. 
+The feature has been integrated in Tomcat's JNDIRealm, in Tomcat 9, and has been ported to previous versions, in minor releases (8.0.29 and 7.0.66).
 
 # Enhanced logs
 
-Wanna change the group owner of the log files ? You can find fine workaround with bash scripts. Here are some integrated solutions, for the access logs and the JULI logs. 
+Wanna change the group owner of the log files ? 
+You can find fine workaround with bash scripts. 
+Here are some integrated solutions, for the access logs and the JULI logs. 
 
-Their are a few constraints. Of course it works only on posix file systems. And the current user should be a member of the group.
+Their are a few constraints. Of course it works only on posix file systems. 
+And the current user should be a member of the group.
 
 ## JULI for Posix
 
@@ -133,13 +148,14 @@ After that, you may configure the file handler in the logging.properties file :
     9custom.fr.sewatech.tcutils.juli.PosixAsyncFileHandler.prefix = sewatech.
     9custom.fr.sewatech.tcutils.juli.PosixAsyncFileHandler.group = everyone
 
-The PosixAsyncFileHandler supports the same options as the regular AsyncFileHandler, and adds the "group" option. This option is just ignored on non-posix file systems. 
+The PosixAsyncFileHandler supports the same options as the regular AsyncFileHandler, and adds the "group" option. 
+This option is just ignored on non-posix file systems. 
 
 ## AccessLogValve for Posix
 
 Configure the Valve in the server.xml file :
 
-    <Valve className="fr.sewatech.tcutils.valves.PosixAccessLogValve"
+    <Valve className="fr.sewatech.tcutils.log.PosixAccessLogValve"
            ...
            posixGroupName="logs" />
 
@@ -149,9 +165,12 @@ On non-posix file systems, the posixGroupName is just ignored.
 
 ## Context path
 
-This XForwardedFilter servlet filter can change the result of request.getContextPath(). Instead of given the original value, it checks if it can find the X-Forwarded-Context header and returns this value if exists.
+This XForwardedFilter servlet filter can change the result of request.getContextPath(). 
+Instead of given the original value, it checks if it can find the X-Forwarded-Context header and returns this value if exists.
 
-The first part of the setup is in the web server. It has to put the context path in the X-Forwarded-Context header. For example, with httpd mod_proxy / mod_headers it will look like this :
+The first part of the setup is in the web server. 
+It has to put the context path in the X-Forwarded-Context header. 
+For example, with httpd mod_proxy / mod_headers it will look like this :
  
     <Location /hi>
         ProxyPass http://localhost:8080/hell
@@ -169,3 +188,20 @@ The java part of the configuration takes place in the web.xml file :
         <filter-name>XForwardedFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+
+# HTTP Headers
+
+## HTTP Response 
+
+This valve adds a header to the HTTP responses with a statically defined value.
+
+    <Valve className="fr.sewatech.tcutils.headers.HttpResponseHeaderValve"
+           headerName="X-Made-By"
+           headerValue="Sewatech"
+           force="true" />
+
+The `headerName` and `headerValue` parameters are required.
+
+The `force` parameter is optional.
+It's default value is `false`, which means that if the header is set by the application the valve won't modify it. 
+In the _force_ mode, the header is always set even if has already be added by the application.
