@@ -18,9 +18,9 @@ package fr.sewatech.tcutils.commons;
 import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
-import javax.xml.bind.DatatypeConverter;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 
 /**
  * @author Alexis Hassler
@@ -30,7 +30,7 @@ public class Encryption {
 
     public static String encode(String text) {
         try {
-            return DatatypeConverter.printBase64Binary(getCipher(Cipher.ENCRYPT_MODE).doFinal(text.getBytes()));
+            return Base64.getEncoder().encodeToString(getCipher(Cipher.ENCRYPT_MODE).doFinal(text.getBytes()));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -38,7 +38,7 @@ public class Encryption {
 
     public static String decode(String text) {
         try {
-            return new String(getCipher(Cipher.DECRYPT_MODE).doFinal(DatatypeConverter.parseBase64Binary(text)));
+            return new String(getCipher(Cipher.DECRYPT_MODE).doFinal(Base64.getDecoder().decode(text)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
