@@ -54,8 +54,8 @@ public class EncryptedSslHttp11Nio2ProtocolTest {
 
         // THeN
         SSLHostConfigCertificate certificate = getSslHostConfigCertificate(protocol);
-        assertThat(certificate.getCertificateKeyPassword()).isEqualTo(CLEAR_PASSWORD);
-
+        assertThat(certificate.getCertificateKeyPassword())
+            .isEqualTo(CLEAR_PASSWORD);
     }
 
     @Test
@@ -66,8 +66,8 @@ public class EncryptedSslHttp11Nio2ProtocolTest {
         protocol.setTruststorePass(ENCRYPTED_PASSWORD);
 
         // THeN
-        assertThat(getSslHostConfig(protocol).getTruststorePassword()).isEqualTo(CLEAR_PASSWORD);
-
+        assertThat(getSslHostConfig(protocol).getTruststorePassword())
+            .isEqualTo(CLEAR_PASSWORD);
     }
 
     private SSLHostConfigCertificate getSslHostConfigCertificate(EncryptedSslHttp11Nio2Protocol protocol) {
